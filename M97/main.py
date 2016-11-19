@@ -17,7 +17,7 @@ class Form(GridLayout):
             res = '%.2f'%((stock-chuck)/detail)
         except:
             res = 'error'
-        self.M.text='M97 P1000 L%s'%res
+        self.calc.text='L%s'%res
     def doM(self,inst):
         self.calculate()
     def cmmm(self,inst):
@@ -34,13 +34,12 @@ class Form(GridLayout):
     def __init__(self, **kwargs):
         super(self.__class__, self).__init__(**kwargs)
         self.cols=3
-        # stock
-        self.add_widget(Label(text='Length:'))
-        self.length = TextInput(text='123',multiline=False)
-        self.add_widget(self.length)
-        self.mm = Button(text='Cm',state='down')
-        self.mm.bind(on_press=self.cmmm)
-        self.add_widget(self.mm)
+        # calc
+        self.add_widget(Label(text='M97'))
+        self.add_widget(Label(text='P1000'))
+        self.calc = Button(text='')
+        self.calc.bind(on_press=self.doM)
+        self.add_widget(self.calc)
         # detail
         self.add_widget(Label(text='Detail:'))
         self.detail = TextInput(text='45',multiline=False)
@@ -51,18 +50,20 @@ class Form(GridLayout):
         self.chuck = TextInput(text='100',multiline=False)
         self.add_widget(self.chuck)
         self.add_widget(Label(text='mm'))
-        # result
-        self.M = Label(text='M97 P1000 Lx')
-        self.add_widget(self.M)
-        # calc
-        self.calc = Button(text='Calc')
-        self.calc.bind(on_press=self.doM)
-        self.add_widget(self.calc)
+        # stock
+        self.add_widget(Label(text='Length:'))
+        self.length = TextInput(text='123',multiline=False)
+        self.add_widget(self.length)
+        self.mm = Button(text='Cm',state='down')
+        self.mm.bind(on_press=self.cmmm)
+        self.add_widget(self.mm)
         # default calc
         self.calculate()
 
-class My(App):
+class M97(App):
+    def on_pause(self): return True
+    def on_resume(self): pass
     def build(self):
         return Form()
 
-My().run()
+M97().run()
