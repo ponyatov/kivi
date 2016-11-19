@@ -47,26 +47,26 @@ class Form(GridLayout):
         self.calc = Button(text='',font_size=32)
         self.calc.bind(on_press=self.doM)
         self.add_widget(self.calc)
-        # detail
-        self.add_widget(Label(text='Detail:'))
-        self.detail = TextInput(text='45',multiline=False,font_size=32)
-        self.detail.bind(text=self.on_text)
-        self.add_widget(self.detail)
-        self.add_widget(Label(text='mm'))
-        # chuck
-        self.add_widget(Label(text='Chuck:'))
-        self.chuck = TextInput(text='100',multiline=False)
-        self.chuck.bind(text=self.on_text)
-        self.add_widget(self.chuck)
-        self.add_widget(Label(text='mm'))
         # stock
         self.add_widget(Label(text='Length:'))
-        self.length = TextInput(text='123',multiline=False,font_size=32)
+        self.length = TextInput(text='123',multiline=False,font_size=32,input_type='number')
         self.length.bind(text=self.on_text)
         self.add_widget(self.length)
         self.units = ToggleButton(text='Cm',state='down')
         self.units.bind(on_press=self.cmmm)
         self.add_widget(self.units)
+        # detail
+        self.add_widget(Label(text='Detail:'))
+        self.detail = TextInput(text='45',multiline=False,font_size=32,input_type='number')
+        self.detail.bind(text=self.on_text)
+        self.add_widget(self.detail)
+        self.add_widget(Label(text='mm'))
+        # chuck
+        self.add_widget(Label(text='Chuck:'))
+        self.chuck = TextInput(text='100',multiline=False,input_type='number')
+        self.chuck.bind(text=self.on_text)
+        self.add_widget(self.chuck)
+        self.add_widget(Label(text='mm'))
         # default calc
         self.calculate()
 
