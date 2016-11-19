@@ -1,3 +1,4 @@
 title		= M97
 author		= Dmitry Ponyatov <dponyatov@gmail.com>
 orientation	= portrait
+icon		= logo.png
