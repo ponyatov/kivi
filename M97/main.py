@@ -5,7 +5,8 @@ from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
-from kivy.uix.togglebutton import ToggleButton as Button
+from kivy.uix.button import Button
+from kivy.uix.togglebutton import ToggleButton
 
 class Form(GridLayout):
     K=10
@@ -19,7 +20,7 @@ class Form(GridLayout):
             # calc Ln
             res = ((stock-chuck)/detail)
             if res<1: raise self
-            self.calc.text='L%.2f'%res
+            self.calc.text='L%.1f'%res
         except:
             self.calc.text='<ERROR>'
     def doM(self,inst):
@@ -43,12 +44,12 @@ class Form(GridLayout):
         # calc
         self.add_widget(Label(text='M97'))
         self.add_widget(Label(text='P1000'))
-        self.calc = Button(text='')
+        self.calc = Button(text='',font_size=32)
         self.calc.bind(on_press=self.doM)
         self.add_widget(self.calc)
         # detail
         self.add_widget(Label(text='Detail:'))
-        self.detail = TextInput(text='45',multiline=False)
+        self.detail = TextInput(text='45',multiline=False,font_size=32)
         self.detail.bind(text=self.on_text)
         self.add_widget(self.detail)
         self.add_widget(Label(text='mm'))
@@ -60,10 +61,10 @@ class Form(GridLayout):
         self.add_widget(Label(text='mm'))
         # stock
         self.add_widget(Label(text='Length:'))
-        self.length = TextInput(text='123',multiline=False)
+        self.length = TextInput(text='123',multiline=False,font_size=32)
         self.length.bind(text=self.on_text)
         self.add_widget(self.length)
-        self.units = Button(text='Cm',state='down')
+        self.units = ToggleButton(text='Cm',state='down')
         self.units.bind(on_press=self.cmmm)
         self.add_widget(self.units)
         # default calc
