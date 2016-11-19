@@ -1,5 +1,7 @@
 TITLE = 'CNC M97 Lx calculator'
 
+import re
+
 import kivy
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
@@ -7,6 +9,14 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.togglebutton import ToggleButton
+
+class NumInput(TextInput):
+    re_num = re.compile(r'[0-9]+')
+    def insert_text(self, substring, from_undo=False):
+        if self.re_num.match(substring) and len(self.text)<4:
+            return super(self.__class__, self).insert_text(substring, from_undo=from_undo)
+        else:
+            return super(self.__class__, self).insert_text('', from_undo=from_undo)
 
 class Form(GridLayout):
     K=10
@@ -50,7 +60,7 @@ class Form(GridLayout):
         self.add_widget(self.calc)
         # stock
         self.add_widget(Label(text='Length:'))
-        self.length = TextInput(text='123',multiline=False,font_size=32,input_type='number')
+        self.length = NumInput(text='123',multiline=False,font_size=32,input_type='number')
         self.length.bind(text=self.on_text)
         self.add_widget(self.length)
         self.units = ToggleButton(text='Cm',state='down')
@@ -58,19 +68,19 @@ class Form(GridLayout):
         self.add_widget(self.units)
         # detail
         self.add_widget(Label(text='Detail:'))
-        self.detail = TextInput(text='45',multiline=False,font_size=32,input_type='number')
+        self.detail = NumInput(text='45',multiline=False,font_size=32,input_type='number')
         self.detail.bind(text=self.on_text)
         self.add_widget(self.detail)
         self.add_widget(Label(text='mm'))
         # cutter
         self.add_widget(Label(text='Cutter:'))
-        self.cutter = TextInput(text='4',multiline=False,input_type='number')
+        self.cutter = NumInput(text='4',multiline=False,input_type='number')
         self.cutter.bind(text=self.on_text)
         self.add_widget(self.cutter)
         self.add_widget(Label(text='mm'))
         # chuck
         self.add_widget(Label(text='Chuck:'))
-        self.chuck = TextInput(text='100',multiline=False,input_type='number')
+        self.chuck = NumInput(text='100',multiline=False,input_type='number')
         self.chuck.bind(text=self.on_text)
         self.add_widget(self.chuck)
         self.add_widget(Label(text='mm'))
