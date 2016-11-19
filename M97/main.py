@@ -17,8 +17,9 @@ class Form(GridLayout):
             stock = self.K*float(self.length.text)
             chuck = float(self.chuck.text)
             detail = float(self.detail.text)
+            cutter = float(self.cutter.text)
             # calc Ln
-            res = ((stock-chuck)/detail)
+            res = ((stock-chuck)/(detail+cutter))
             if res<1: raise self
             self.calc.text='L%.1f'%res
         except:
@@ -60,6 +61,12 @@ class Form(GridLayout):
         self.detail = TextInput(text='45',multiline=False,font_size=32,input_type='number')
         self.detail.bind(text=self.on_text)
         self.add_widget(self.detail)
+        self.add_widget(Label(text='mm'))
+        # cutter
+        self.add_widget(Label(text='Cutter:'))
+        self.cutter = TextInput(text='4',multiline=False,input_type='number')
+        self.cutter.bind(text=self.on_text)
+        self.add_widget(self.cutter)
         self.add_widget(Label(text='mm'))
         # chuck
         self.add_widget(Label(text='Chuck:'))
