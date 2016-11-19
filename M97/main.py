@@ -5,30 +5,36 @@ from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
-from kivy.uix.button import Button
+from kivy.uix.togglebutton import ToggleButton as Button
 
 class Form(GridLayout):
     K=10
+    def on_text(self,inst,val):
+        self.calculate()
     def calculate(self):
         try:
             stock = self.K*float(self.length.text)
             chuck = float(self.chuck.text)
             detail = float(self.detail.text)
-            res = '%.2f'%((stock-chuck)/detail)
+            # calc Ln
+            res = ((stock-chuck)/detail)
+            if res<1: raise self
+            self.calc.text='L%.2f'%res
         except:
-            res = 'error'
-        self.calc.text='L%s'%res
+            self.calc.text='<ERROR>'
     def doM(self,inst):
         self.calculate()
+    def cm(self):
+        self.units.text='Cm'
+        self.units.state='down'
+        self.K=10
+    def mm(self):
+        self.units.text='mm'
+        self.units.state='normal'
+        self.K=1 
     def cmmm(self,inst):
-        if self.mm.text=='mm':
-            self.mm.text='Cm'
-            self.mm.state='down'
-            self.K=10.
-        else:
-            self.mm.text='mm'
-            self.mm.state='normal'
-            self.K=1. 
+        if self.units.text=='mm': self.cm()
+        else: self.mm()
         self.calculate()
         
     def __init__(self, **kwargs):
@@ -43,20 +49,23 @@ class Form(GridLayout):
         # detail
         self.add_widget(Label(text='Detail:'))
         self.detail = TextInput(text='45',multiline=False)
+        self.detail.bind(text=self.on_text)
         self.add_widget(self.detail)
         self.add_widget(Label(text='mm'))
         # chuck
         self.add_widget(Label(text='Chuck:'))
         self.chuck = TextInput(text='100',multiline=False)
+        self.chuck.bind(text=self.on_text)
         self.add_widget(self.chuck)
         self.add_widget(Label(text='mm'))
         # stock
         self.add_widget(Label(text='Length:'))
         self.length = TextInput(text='123',multiline=False)
+        self.length.bind(text=self.on_text)
         self.add_widget(self.length)
-        self.mm = Button(text='Cm',state='down')
-        self.mm.bind(on_press=self.cmmm)
-        self.add_widget(self.mm)
+        self.units = Button(text='Cm',state='down')
+        self.units.bind(on_press=self.cmmm)
+        self.add_widget(self.units)
         # default calc
         self.calculate()
 
