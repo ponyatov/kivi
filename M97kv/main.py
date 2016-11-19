@@ -1,6 +1,8 @@
 from kivy.app import App
+from kivy.uix.label import Label
 
 class My(App):
-	pass
+	def build(self):
+		return Label(text='Hello')
 
 My().run()
