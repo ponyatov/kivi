@@ -1,8 +1,8 @@
 from kivy.app import App
-from kivy.uix.label import Label
+from kivy.uix.widget import Widget
 
-class My(App):
+class Form(Widget): pass
+class M97(App):
 	def build(self):
-		return Label(text='Hello')
-
-My().run()
+		return Form()
+M97().run()
