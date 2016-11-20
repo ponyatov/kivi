@@ -1,0 +1,3 @@
+title		= draw
+author		= Dmitry Ponyatov <dponyatov@gmail.com>
+orientation	= portrait
