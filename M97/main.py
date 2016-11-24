@@ -2,15 +2,16 @@
 
 TITLE = 'CNC M97 Lx calculator'
 
-import re
+import re,time
 
-import kivy
+# import kivy
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.togglebutton import ToggleButton
+from kivy.clock import Clock
 
 from kivy.storage.jsonstore import JsonStore
 # from os.path import join
@@ -60,13 +61,17 @@ class Form(GridLayout):
         if self.K==1: self.cm()
         else: self.mm()
         self.calculate()
-        
+    def tick(self,tack):
+        self.clock.text=time.strftime('%a\n%d/%m\n%H:%M')
     def __init__(self, **kwargs):
         super(self.__class__, self).__init__(**kwargs)
         self.cols=3
+        # clock
+        self.clock=Label(text='') ; self.tick(0)
+        self.add_widget(self.clock)
+        Clock.schedule_interval(self.tick,60)
         # calc
-        self.add_widget(Label(text='M97'))
-        self.add_widget(Label(text='P1000'))
+        self.add_widget(Label(text='M97 P1000'))
         self.calc = Button(text='',font_size=32)
         self.calc.bind(on_press=self.doM)
         self.add_widget(self.calc)
